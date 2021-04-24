@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Fibonacci</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<form action="/main" method="post">
+    <div>Номер числа Фибоначчи:  <input type="text" name="inputPosition" th:value="${input}" style="width: 50px" /></div>
+    <div th:text="${message}"/></div><br>
+    <button type="submit">Посчитать</button>
+</form>
+<form action="/database" method="post">
+    <button type="submit">История ввода</button>
+</form>
+</body>
+</html>
