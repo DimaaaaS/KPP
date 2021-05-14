@@ -33,7 +33,7 @@ public class MainController {
             validator.CheckString(inputPosition);
             int position = Integer.parseInt(inputPosition);
             entityParametres parametres = new entityParametres(position);
-            parametres.CalculateFibonacci();
+            parametres.Calculate();
             model.addAttribute("input",inputPosition);
             model.addAttribute("message", "Значение: " + parametres.getNewValue());
             fileWorker.write(DATABASE, parametres);

@@ -15,10 +15,15 @@ import java.util.ArrayList;
 public class FileWorkerService {
     public void write(String path, ArrayList<entityParametres> list) {
         try(FileWriter writer = new FileWriter(path,false)) {
-            for(entityParametres el: list) {
-               writer.write(el.getPosition() + " " + el.getNewValue() + "\n");
-            }
-        }catch (IOException ex) {
+            list.forEach((element)-> {
+                        try {
+                            writer.write(element.getPosition() + " " + element.getNewValue() + "\n");
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+            );
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
@@ -27,14 +32,6 @@ public class FileWorkerService {
         try(FileWriter writer = new FileWriter(path, true)) {
             writer.write(parametres.getPosition() + " " + parametres.getNewValue() + "\n");
         }catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void write(String path, String errorMessage, String inputString ) {
-        try(FileWriter writer = new FileWriter(path, true)) {
-            writer.write(inputString + " " + errorMessage + "\n");
-        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }

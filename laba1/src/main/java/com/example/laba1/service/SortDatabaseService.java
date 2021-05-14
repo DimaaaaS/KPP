@@ -7,17 +7,27 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SortDatabaseService {
     public void sortDatabase(String path) {
         try {
             ArrayList<entityParametres> list = new ArrayList<>();
-            Thread FileReadThread = new Thread(new FileReadRunner(path, list));
+            Runnable FileReadRunner = ()-> {
+                FileWorkerService fileWorker = new FileWorkerService();
+                fileWorker.read(path, list);
+            };
+            Thread FileReadThread = new Thread(FileReadRunner);
             FileReadThread.start();
             FileReadThread.join();
-            Collections.sort(list);
-            Thread FileWriteThread = new Thread(new FileWriteRunner(path, list));
+            ArrayList<entityParametres> sortedList = list.stream().sorted().collect(Collectors.toCollection(ArrayList::new));
+            Runnable FileWriteRunner = ()-> {
+                FileWorkerService fileWorker = new FileWorkerService();
+                fileWorker.write(path, sortedList);
+            };
+            Thread FileWriteThread = new Thread(FileWriteRunner);
             FileWriteThread.start();
         } catch (InterruptedException ex) {
             ex.printStackTrace();
